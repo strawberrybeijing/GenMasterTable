@@ -21,8 +21,8 @@
 
 Visit the **[GitHub Releases](https://github.com/strawberrybeijing/MasterTableAPP/releases)** page and download the latest version for your operating system:
 
-- **Windows**: Download `MasterTableApp.exe`
-- **macOS**: Download `MasterTableApp.app`
+- **Windows**: Download `MasterTableApp_windows.exe`
+- **macOS**: Download `MasterTableApp_MacOS.zip`
 
 ### System Requirements
 - **Operating System**: Windows (64-bit) or macOS
