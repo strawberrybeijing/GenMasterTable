@@ -19,7 +19,7 @@
 
 ### Download the Latest Release
 
-Visit the **[GitHub Releases](https://github.com/strawberrybeijing/MasterTableAPP/releases)** page and download the latest version for your operating system:
+Visit the **[GitHub Releases](https://github.com/strawberrybeijing/GenMasterTable/releases)** page and download the latest version for your operating system:
 
 - **Windows**: Download `MasterTableApp_windows.exe`
 - **macOS**: Download `MasterTableApp_MacOS.zip`
@@ -30,8 +30,8 @@ Visit the **[GitHub Releases](https://github.com/strawberrybeijing/MasterTableAP
 ## Usage
 
 ### Launching GenMasterTable
-1. **Windows**: Double-click `MasterTableApp.exe`.
-2. **macOS**: Open `MasterTableApp.app`.
+1. **Windows**: Double-click `GenMasterTable_windows.exe`.
+2. **macOS**: Open `GenMasterTable_macOS.app`.
 If you encounter a security warning, navigate to **System Preferences > Security & Privacy** and allow the app to run.
 
 ### Loading Data
