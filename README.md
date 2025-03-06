@@ -1,7 +1,7 @@
-# MasterTableApp
+# GenMasterTable
 
 
-**MasterTableApp** is a user-friendly, secure, and locally operated desktop application designed to handle large-scale genetic variant datasets. It features an intuitive graphical user interface (GUI) that simplifies filtering, merging, summarizing, and visualizing annotated variants from DNA and RNA sequencing data. The application supports both **VCF** and **CSV** file formats and is accessible to clinicians, geneticists, and researchers without requiring programming expertise.
+**GenMasterTable** is a user-friendly, secure, and locally operated desktop application designed to handle large-scale genetic variant datasets. It features an intuitive graphical user interface (GUI) that simplifies filtering, merging, summarizing, and visualizing annotated variants from DNA and RNA sequencing data. The application supports both **VCF** and **CSV** file formats and is accessible to clinicians, geneticists, and researchers without requiring programming expertise.
 
 ## Features
 
