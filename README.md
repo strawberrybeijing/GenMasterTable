@@ -8,7 +8,7 @@
 - **Standalone Desktop Application**: No need for command-line execution or database setup.
 - **Supports Large Datasets**: Handles millions of variants across hundreds of annotations.
 - **Multiple Input Formats**: Accepts **VCF** and **CSV** files from DNA and RNA sequencing.
-- **Advanced Filtering System**: Enables multi-tier filtering and threshold-based queries.
+- **Advanced Filtering System**: Enables multi-tier list-based (str) filtering and threshold-based quantitative filtering.
 - **Merging Capability**: Combines multiple annotated files for **cohort-level analysis**.
 - **Interactive Data Visualization**: Provides sorting, indexing, and data transformation tools.
 - **Secure & Local**: No cloud upload, ensuring patient data privacy.
