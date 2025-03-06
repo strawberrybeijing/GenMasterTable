@@ -29,7 +29,7 @@ Visit the **[GitHub Releases](https://github.com/strawberrybeijing/MasterTableAP
 
 ## Usage
 
-### Launching MasterTableApp
+### Launching GenMasterTable
 1. **Windows**: Double-click `MasterTableApp.exe`.
 2. **macOS**: Open `MasterTableApp.app`.
 If you encounter a security warning, navigate to **System Preferences > Security & Privacy** and allow the app to run.
@@ -48,23 +48,23 @@ If you encounter a security warning, navigate to **System Preferences > Security
 - Paste the copied data into a blank Excel sheet for further analysis.
 
 ## Application in Genomic Research
-MasterTableApp has been successfully applied to a whole-genome sequencing dataset of **935 subjects**, analyzing **2.1 million variants** across **181 annotations**. It enables efficient variant filtering for disease-associated genes, including **ANOS1, CHD7, DMXL2, FGFR1, PCSK1, POLR3A, SEMA3A, SOX10, TAC3**, and many others.
+GenMasterTable has been successfully applied to a whole-genome sequencing dataset of **935 subjects**, analyzing **2.1 million variants** across **181 annotations**. It enables efficient variant filtering for disease-associated genes, including **ANOS1, CHD7, DMXL2, FGFR1, PCSK1, POLR3A, SEMA3A, SOX10, TAC3**, and many others.
 
 ## Citation
-If you use MasterTableApp in your research, please cite:
+If you use GenMasterTable in your research, please cite:
 
-> **MasterTableApp: A user-friendly desktop solution for filtering, summarizing, and visualizing large-scale annotated genetic variants**
+> **GenMasterTable: A user-friendly desktop solution for filtering, summarizing, and visualizing large-scale annotated genetic variants**
 
 (Paper link will be added once published)
 
 ## License
-MasterTableApp is released under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+GenMasterTable is released under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ## Contributions
-We welcome contributions! Feel free to **submit issues, feature requests, or pull requests** to improve MasterTableApp.
+We welcome contributions! Feel free to **submit issues, feature requests, or pull requests** to improve GenMasterTable.
 
 ## Contact
-For support or questions, please open an **[issue on GitHub](https://github.com/strawberrybeijing/MasterTableAPP/issues)**.
+For support or questions, please open an **[issue on GitHub](https://github.com/strawberrybeijing/GenMasterTable/issues)**.
 
 ---
-**GitHub Repository:** [MasterTableApp](https://github.com/strawberrybeijing/MasterTableAPP)
+**GitHub Repository:** [GenMasterTable](https://github.com/strawberrybeijing/GenMasterTable)
