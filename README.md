@@ -12,7 +12,7 @@
 - **Merging Capability**: Combines multiple annotated files for **cohort-level analysis**.
 - **Interactive Data Visualization**: Provides sorting, indexing, and data transformation functions.
 - **Secure & Local**: No cloud upload, ensuring patient data privacy.
-- **Cross-Platform Compatibility**: Available for **Windows** and **macOS**.
+- **Cross-Platform Compatibility**: Available for **Windows x64** and **macOS**.
 - **Completely Free**: Open-source and available for research use.
 
 ## Installation
