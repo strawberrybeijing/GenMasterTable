@@ -21,8 +21,9 @@
 
 Visit the **[GitHub Releases](https://github.com/strawberrybeijing/GenMasterTable/releases)** page and download the latest version for your operating system:
 
-- **Windows**: Download `MasterTableApp_windows.exe`
-- **macOS**: Download `MasterTableApp_MacOS.zip`
+- **Windows**: Download `GenMasterTable_windows.exe`
+- **macOS**: Download `GenMasterTable_macOS.zip`
+- **Handbook**: A comprehensive user guide `GenMasterTable_UserGuide.pdf` is also available in the Release section to help you navigate the application.
 
 ### System Requirements
 - **Operating System**: Windows (64-bit) or macOS
