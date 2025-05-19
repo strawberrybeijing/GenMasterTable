@@ -10,7 +10,7 @@
 - **Multiple Input Formats**: Accepts **VCF** and **CSV** files from DNA and RNA sequencing.
 - **Advanced Filtering System**: Enables multi-tier list-based (str) filtering and threshold-based quantitative filtering.
 - **Merging Capability**: Combines multiple annotated files for **cohort-level analysis**.
-- **Interactive Data Visualization**: Provides sorting, indexing, and data transformation functions.
+- **Interactive Data Visualization**: Provides sorting, summerizing data transformation functions.
 - **Secure & Local**: No cloud upload, ensuring patient data privacy.
 - **Cross-Platform Compatibility**: Available for **Windows x64** and **macOS**.
 - **Completely Free**: Open-source and available for research use.
