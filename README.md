@@ -32,10 +32,11 @@ Visit the **[GitHub Releases](https://github.com/strawberrybeijing/GenMasterTabl
 ## Usage
 
 ### Launching GenMasterTable
+If you encounter a security warning, navigate to **System Preferences > Security & Privacy** and allow the app to run.
 1. **Windows**: Double-click `GenMasterTable_windows.exe`.
 2. **macOS**: Open `GenMasterTable_macOS.app`.
 3. **Linux**: command ./`GenMasterTable_linux`.
-  If you encounter a security warning, navigate to **System Preferences > Security & Privacy** and allow the app to run.
+
 
 ### Loading Data
 - **VCF Files**: Directly import individual or multiple **annotated VCF** files.
