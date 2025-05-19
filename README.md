@@ -1,7 +1,7 @@
 # GenMasterTable
 
 
-**GenMasterTable** is a user-friendly, secure, and locally operated desktop application designed to handle large-scale genetic variant datasets. It features an intuitive graphical user interface (GUI) that simplifies filtering, merging, summarizing, and visualizing annotated variants from DNA and RNA sequencing data. The application supports both **VCF** and **CSV** file formats and is accessible to clinicians, geneticists, and researchers without requiring programming expertise.
+**GenMasterTable** is a user-friendly, secure, and locally operated desktop application designed to handle large-scale genetic variant datasets. It features an intuitive graphical user interface (GUI) that simplifies filtering, merging(concatenation), summarizing, and visualizing annotated variants from DNA and RNA sequencing data. The application supports both **VCF** and **CSV** file formats and is accessible to clinicians, geneticists, and researchers without requiring programming expertise.
 
 ## Features
 
@@ -37,16 +37,15 @@ If you encounter a security warning, navigate to **System Preferences > Security
 
 ### Loading Data
 - **VCF Files**: Directly import individual or multiple **annotated VCF** files.
-- **CSV Files**: Load and merge CSV files for large-scale analysis.
+- **CSV/TSV Files**: Load and merge CSV/TSV files for large-scale analysis.
 
 ### Filtering and Summarization
 - Apply advanced column-based filtering using the main control frame, e.g. a list of genes, patient IDs, pedigree IDs (seperate by comma/space).
-- Set thresholds for pathogenicity scores (e.g., CADD, REVEL, AlphaMissense) by using the toolbar on the right side of the GUI. Click the button with a small yellow key icon, which displays 'Filter Table' when hovered over.
+- Set thresholds for pathogenicity scores (e.g., CADD, REVEL, AlphaMissense) by using the 'Advanced Filters' function of.
 - Sort, index, and transform genomic data for cohort-level analysis by right-clicking on the column header.
 
 ### Data Export
-- Copy and paste filtered datasets into Excel. (click on the left above coner of the datasheet is select all, then go the toolbar on the right side of the GUI, click the button with 2 sheets together (the 5th) icon, which displays 'copy table to clipboard' when hovered over.
-- Paste the copied data into a blank Excel sheet for further analysis.
+- Processed data can be exported to VCF/CSV/TSV
 
 ## Application in Genomic Research
 GenMasterTable has been successfully applied to a whole-genome sequencing dataset of **935 subjects**, analyzing **2.1 million variants** across **181 annotations**. It enables efficient variant filtering for disease-associated genes, including **ANOS1, CHD7, DMXL2, FGFR1, PCSK1, POLR3A, SEMA3A, SOX10, TAC3**, and many others.
