@@ -23,16 +23,18 @@ Visit the **[GitHub Releases](https://github.com/strawberrybeijing/GenMasterTabl
 
 - **Windows**: Download `GenMasterTable_windows.exe`
 - **macOS**: Download `GenMasterTable_macOS.zip`
-- **Handbook**: A comprehensive user guide `GenMasterTable_UserGuide.pdf` is also available in the Release section to help you navigate the application.
+- **Linux**: Download `GenMasterTable_linux`
+- **Handbook**: A comprehensive user guide `GenMasterTable_UserGuide_v1.pdf` is also available in the Release section to help you navigate the application.
 
 ### System Requirements
-- **Operating System**: Windows (64-bit) or macOS
+- **Operating System**: Windows (64-bit) /macOS /Linux
 
 ## Usage
 
 ### Launching GenMasterTable
 1. **Windows**: Double-click `GenMasterTable_windows.exe`.
 2. **macOS**: Open `GenMasterTable_macOS.app`.
+3. **Linux**: command ./`GenMasterTable_linux`.
 If you encounter a security warning, navigate to **System Preferences > Security & Privacy** and allow the app to run.
 
 ### Loading Data
