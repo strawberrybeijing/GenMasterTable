@@ -42,7 +42,7 @@ If you encounter a security warning, navigate to **System Preferences > Security
 ### Filtering and Summarization
 - Apply advanced column-based filtering using the main control frame, e.g. a list of genes, patient IDs, pedigree IDs (seperate by comma/space).
 - Set thresholds for pathogenicity scores (e.g., CADD, REVEL, AlphaMissense) by using the 'Advanced Filters' function of.
-- Sort, index, and transform genomic data for cohort-level analysis by right-clicking on the column header.
+- Sort and transform genomic data for cohort-level analysis by right-clicking on the column header.
 
 ### Data Export
 - Processed data can be exported to VCF/CSV/TSV
