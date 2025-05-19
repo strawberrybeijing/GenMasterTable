@@ -7,7 +7,7 @@
 
 - **Standalone Desktop Application**: No need for command-line execution or database setup.
 - **Supports Large Datasets**: Handles millions of variants across hundreds of annotations.
-- **Multiple Input Formats**: Accepts **VCF** **CSV** and **TSV**  files from DNA and RNA sequencing.
+- **Multiple Input Formats**: Accepts **VCF**,**CSV** and **TSV**  files from DNA and RNA sequencing.
 - **Advanced Filtering System**: Enables multi-tier list-based (str) filtering and threshold-based quantitative filtering.
 - **Merging Capability**: Combines multiple annotated files for **cohort-level analysis**.
 - **Interactive Data Visualization**: Provides sorting, summerizing data transformation functions.
