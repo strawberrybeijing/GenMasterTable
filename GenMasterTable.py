@@ -12,7 +12,6 @@ import shutil
 from tkinter import messagebox, simpledialog
 
 
-
 class AdvancedFilterWindow(Toplevel):
     def __init__(self, parent, dataframe, disable_main_filters_callback=None, enable_main_filters_callback=None):
         super().__init__(parent)
