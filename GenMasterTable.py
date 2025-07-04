@@ -1031,135 +1031,215 @@ class MasterTableApp(Tk):
             return '.'
         return str(val)
 
-    def _export_single_sample_vcf(self, filepath):
-        with open(filepath, 'w') as vcf_out:
-            for fname, df in self.MasterTable.groupby("File_Name"):
-                if fname not in self.vcf_headers:
-                    continue
-                
-                reader = self.vcf_headers[fname]
-                available_fields = set(df.columns)
-                format_fields = []
-                if hasattr(reader, 'formats'):
-                    format_fields = [f for f in reader.formats.keys() if f in available_fields]
-                self._write_vcf_header(vcf_out, reader, available_fields)
-                for _, row in df.iterrows():
-                    chrom = self._get_vcf_value(row, 'Chrom') if 'Chrom' in available_fields else '.'
-                    pos = self._get_vcf_value(row, 'Pos') if 'Pos' in available_fields else '1'
-                    vid = self._get_vcf_value(row, 'ID') if 'ID' in available_fields else '.'
-                    ref = self._get_vcf_value(row, 'Ref') if 'Ref' in available_fields else 'N'
-                    alt = self._get_vcf_value(row, 'Alt') if 'Alt' in available_fields else '.'
-                    qual = self._get_vcf_value(row, 'Qual') if 'Qual' in available_fields else '.'
-                    filt = self._get_vcf_value(row, 'Filter') if 'Filter' in available_fields else 'PASS'
-                    info_fields = []
-                    if hasattr(reader, 'infos'):
-                        for k, v in row.items():
-                            if k in reader.infos and k in available_fields and not pd.isna(v):
-                                info_fields.append(f"{k}={v}")
-                    info = ';'.join(info_fields) if info_fields else '.'
-                    
-                    vcf_out.write(f"{chrom}\t{pos}\t{vid}\t{ref}\t{alt}\t{qual}\t{filt}\t{info}")
-                    if hasattr(reader, 'samples') and len(reader.samples) > 0 and format_fields:
-                        sample_data = []
-                        for field in format_fields:
-                            sample_data.append(self._get_vcf_value(row, field))
-                        
-                        vcf_out.write(f"\t{':'.join(format_fields)}\t{':'.join(sample_data)}")
-                    
-                    vcf_out.write("\n")
+
+
 
     def export_to_vcf(self):
         if not self.has_data_loaded():
             self.show_no_data_message("export to VCF")
             return
 
-        if not self.loaded_from_vcf:
+        required_columns = {'Chrom', 'Pos', 'Ref', 'Alt'}
+        if not required_columns.issubset(self.MasterTable.columns):
             messagebox.showerror(
-                "Export Error",
-                "VCF export can only be performed when the input data was loaded from VCF files."
+                "Missing Columns",
+                "VCF export requires these essential columns: Chrom, Pos, Ref, Alt."
             )
             return
 
-        filepath = filedialog.asksaveasfilename(
-            defaultextension=".vcf",
-            filetypes=[("VCF files", "*.vcf"), ("All files", "*.*")]
-        )
+        filepath = filedialog.asksaveasfilename(defaultextension=".vcf", filetypes=[("VCF files", "*.vcf")])
         if not filepath:
             return
         
         try:
-            current_df = self.table.model.df
-            for fname, df in current_df.groupby("File_Name"):
-                if fname not in self.vcf_headers:
-                    continue
-                reader = self.vcf_headers[fname]
-                available_columns = set(df.columns)
-                standard_cols = ['Chrom', 'Pos', 'ID', 'Ref', 'Alt', 'Qual', 'Filter']
-                present_standard_cols = [col for col in standard_cols if col in available_columns]
-                original_info_fields = set(reader.infos.keys()) if hasattr(reader, 'infos') else set()
-                keep_info_fields = [f for f in original_info_fields if f in available_columns]
+            current_columns = set(self.table.model.df.columns)
+            
+            samples = {}
+            sample_names = []
+            format_fields = set()  
+            
+            for fname, df in self.MasterTable.groupby("File_Name"):
+                sample_name = os.path.splitext(fname)[0].split('_')[-1]
+                sample_names.append(sample_name)
                 
+                visible_cols = [col for col in df.columns if col in current_columns]
+                samples[sample_name] = df[visible_cols]
+                
+                for col in visible_cols:
+                    if col in ['Chrom', 'Pos', 'ID', 'Ref', 'Alt', 'Qual', 'Filter', 'File_Name']:
+                        continue
+                    if fname in self.vcf_headers:
+                        reader = self.vcf_headers[fname]
+                        if hasattr(reader, 'formats') and col in reader.formats:
+                            format_fields.add(col)
+                        elif hasattr(reader, 'infos') and col in reader.infos:
+                            continue  
+                        else:
+                            if any('|' in str(val) for val in df[col].dropna().head(5)):
+                                format_fields.add(col)
+
+            if len(samples) > 1:
                 with open(filepath, 'w') as vcf_out:
-                    vcf_out.write(f"##fileformat={reader.metadata.get('fileformat', 'VCFv4.2')}\n")
+                    vcf_out.write("##fileformat=VCF\n")
                     
-                    if hasattr(reader, 'infos'):
-                        for info_id in keep_info_fields:
-                            info = reader.infos[info_id]
-                            vcf_out.write(f"##INFO=<ID={info_id},Number={info.num},Type={info.type},Description=\"{info.desc}\">\n")
+                    for fname, reader in self.vcf_headers.items():
+                        if hasattr(reader, 'infos'):
+                            for info_id, info in reader.infos.items():
+                                if info_id in current_columns:
+                                    vcf_out.write(f"##INFO=<ID={info_id},Number={info.num},Type={info.type},Description=\"{info.desc}\">\n")
+                            break
                     
-                    if hasattr(reader, 'formats'):
-                        for fmt_id, fmt in reader.formats.items():
-                            vcf_out.write(f"##FORMAT=<ID={fmt_id},Number={fmt.num},Type={fmt.type},Description=\"{fmt.desc}\">\n")
-                    
-                    header_cols = []
-                    if 'Chrom' in present_standard_cols: header_cols.append("CHROM")
-                    if 'Pos' in present_standard_cols: header_cols.append("POS")
-                    if 'ID' in present_standard_cols: header_cols.append("ID")
-                    if 'Ref' in present_standard_cols: header_cols.append("REF")
-                    if 'Alt' in present_standard_cols: header_cols.append("ALT")
-                    if 'Qual' in present_standard_cols: header_cols.append("QUAL")
-                    if 'Filter' in present_standard_cols: header_cols.append("FILTER")
-                    header_cols.append("INFO")
-                    
-                    if hasattr(reader, 'samples') and len(reader.samples) > 0:
-                        header_cols.append("FORMAT")
-                        header_cols.extend(reader.samples)
-                    
-                    vcf_out.write("#" + "\t".join(header_cols) + "\n")
-                    for _, row in df.iterrows():
-                        parts = []
-                        if 'Chrom' in present_standard_cols: parts.append(self._get_vcf_value(row, 'Chrom'))
-                        if 'Pos' in present_standard_cols: parts.append(self._get_vcf_value(row, 'Pos'))
-                        if 'ID' in present_standard_cols: parts.append(self._get_vcf_value(row, 'ID'))
-                        if 'Ref' in present_standard_cols: parts.append(self._get_vcf_value(row, 'Ref'))
-                        if 'Alt' in present_standard_cols: parts.append(self._get_vcf_value(row, 'Alt'))
-                        if 'Qual' in present_standard_cols: parts.append(self._get_vcf_value(row, 'Qual'))
-                        if 'Filter' in present_standard_cols: parts.append(self._get_vcf_value(row, 'Filter'))
-                        info_parts = []
-                        for info_field in keep_info_fields:
-                            val = row.get(info_field)
-                            if not pd.isna(val):
-                                info_parts.append(f"{info_field}={val}")
-                        parts.append(';'.join(info_parts) if info_parts else '.')
+                    format_field_order = sorted([f for f in format_fields if f in current_columns])
+                    for field in format_field_order:
+                        field_spec = None
+                        for fname, reader in self.vcf_headers.items():
+                            if hasattr(reader, 'formats') and field in reader.formats:
+                                field_spec = reader.formats[field]
+                                break
                         
-                        if hasattr(reader, 'samples') and len(reader.samples) > 0:
-                            if 'FORMAT' in row:
-                                parts.append(row['FORMAT'])
-                            else:
-                                parts.append(':'.join(reader.formats.keys()))
-                            
-                            for sample in reader.samples:
-                                sample_data = []
-                                for fmt in reader.formats:
-                                    sample_data.append(self._get_vcf_value(row, fmt))
-                                parts.append(':'.join(sample_data))
+                        if field_spec:
+                            vcf_out.write(f"##FORMAT=<ID={field},Number={field_spec.num},Type={field_spec.type},Description=\"{field_spec.desc}\">\n")
+                        else:
+                            vcf_out.write(f"##FORMAT=<ID={field},Number=1,Type=String,Description=\"Unknown field {field}\">\n")
+                    
+                    vcf_out.write("#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO")
+                    if format_field_order:  
+                        vcf_out.write("\tFORMAT")
+                        for sample in sample_names:
+                            vcf_out.write(f"\t{sample}")
+                    vcf_out.write("\n")
+                    
+                    all_positions = set()
+                    for sample_data in samples.values():
+                        for _, row in sample_data.iterrows():
+                            all_positions.add((row['Chrom'], row['Pos']))
+                    
+                    for chrom, pos in sorted(all_positions):
+                        variant_info = {}
+                        for sample in sample_names:
+                            sample_data = samples[sample]
+                            variant = sample_data[
+                                (sample_data['Chrom'] == chrom) & 
+                                (sample_data['Pos'] == pos)
+                            ]
+                            if not variant.empty:
+                                variant_info[sample] = variant.iloc[0]
                         
-                        vcf_out.write("\t".join(parts) + "\n")
-                
-            messagebox.showinfo("Success", f"VCF exported successfully to:\n{filepath}")
+                        if not variant_info:
+                            continue
+                        
+                        first_var = next(iter(variant_info.values()))
+                        
+                        vid = first_var.get('ID', '.')
+                        ref = first_var.get('Ref', 'N')
+                        alt = first_var.get('Alt', '.')
+                        qual = first_var.get('Qual', '.')
+                        filt = first_var.get('Filter', 'PASS')
+                        
+                        info_fields = []
+                        for info_field in first_var.index:
+                            if info_field in ['Chrom', 'Pos', 'ID', 'Ref', 'Alt', 'Qual', 'Filter', 'File_Name']:
+                                continue
+                            if info_field not in format_fields and not pd.isna(first_var[info_field]):
+                                info_fields.append(f"{info_field}={first_var[info_field]}")
+                        info = ';'.join(info_fields) if info_fields else '.'
+                        
+                        if format_field_order:
+                            sample_data_lines = []
+                            for sample in sample_names:
+                                if sample in variant_info:
+                                    var = variant_info[sample]
+                                    sample_data = []
+                                    for field in format_field_order:
+                                        val = var.get(field, '.')
+                                        if pd.isna(val):
+                                            sample_data.append('.')
+                                        else:
+                                            if '|' in str(val):
+                                                sample_data.append(str(val).split('|')[0])
+                                            else:
+                                                sample_data.append(str(val))
+                                    sample_data_lines.append(':'.join(sample_data))
+                                else:
+                                    sample_data_lines.append(':'.join(['.'] * len(format_field_order)))
+                        
+                        vcf_out.write(f"{chrom}\t{pos}\t{vid}\t{ref}\t{alt}\t{qual}\t{filt}\t{info}")
+                        if format_field_order:  
+                            vcf_out.write(f"\t{':'.join(format_field_order)}")
+                            for data in sample_data_lines:
+                                vcf_out.write(f"\t{data}")
+                        vcf_out.write("\n")
+            else:
+                self._export_single_sample_vcf(filepath, format_fields)
+            
+            messagebox.showinfo("Success", "VCF exported successfully!")
         
         except Exception as e:
             messagebox.showerror("Error", f"Failed to export VCF:\n{str(e)}")
+
+    def _export_single_sample_vcf(self, filepath, format_fields=None):
+        with open(filepath, 'w') as vcf_out:
+            for fname, df in self.MasterTable.groupby("File_Name"):
+                if fname not in self.vcf_headers:
+                    continue
+                
+                current_columns = set(self.table.model.df.columns)
+                visible_cols = [col for col in df.columns if col in current_columns]
+                df = df[visible_cols]
+                
+                reader = self.vcf_headers[fname]
+                available_fields = set(df.columns)
+                
+                if format_fields is None:
+                    format_fields = set()
+                    if hasattr(reader, 'formats'):
+                        format_fields.update([f for f in reader.formats.keys() if f in available_fields])
+                    for col in available_fields:
+                        if col in ['Chrom', 'Pos', 'ID', 'Ref', 'Alt', 'Qual', 'Filter', 'File_Name']:
+                            continue
+                        if col not in format_fields and any('|' in str(val) for val in df[col].dropna().head(5)):
+                            format_fields.add(col)
+                
+                format_fields = {f for f in format_fields if f in current_columns}
+                format_field_order = sorted(format_fields)
+                
+                self._write_vcf_header(vcf_out, reader, available_fields)
+                
+                for _, row in df.iterrows():
+                    chrom = self._get_vcf_value(row, 'Chrom')
+                    pos = self._get_vcf_value(row, 'Pos')
+                    vid = self._get_vcf_value(row, 'ID')
+                    ref = self._get_vcf_value(row, 'Ref')
+                    alt = self._get_vcf_value(row, 'Alt')
+                    qual = self._get_vcf_value(row, 'Qual')
+                    filt = self._get_vcf_value(row, 'Filter')
+                    
+                    info_fields = []
+                    for info_field in row.index:
+                        if info_field in ['Chrom', 'Pos', 'ID', 'Ref', 'Alt', 'Qual', 'Filter', 'File_Name']:
+                            continue
+                        if info_field not in format_fields and not pd.isna(row[info_field]):
+                            info_fields.append(f"{info_field}={row[info_field]}")
+                    info = ';'.join(info_fields) if info_fields else '.'
+                    
+                    if format_field_order:
+                        sample_data = []
+                        for field in format_field_order:
+                            val = row.get(field, '.')
+                            if pd.isna(val):
+                                sample_data.append('.')
+                            else:
+                                if '|' in str(val):
+                                    sample_data.append(str(val).split('|')[0])
+                                else:
+                                    sample_data.append(str(val))
+                    
+                    vcf_out.write(f"{chrom}\t{pos}\t{vid}\t{ref}\t{alt}\t{qual}\t{filt}\t{info}")
+                    if format_field_order:  
+                        vcf_out.write(f"\t{':'.join(format_field_order)}\t{':'.join(sample_data)}")
+                    vcf_out.write("\n")
+
+
 
     def _parse_info_value(self, val):
         if pd.isna(val):
