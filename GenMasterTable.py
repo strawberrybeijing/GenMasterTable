@@ -988,15 +988,6 @@ class MasterTableApp(Tk):
             self.table.model.df.to_csv(path, index=False, sep='\t')
             messagebox.showinfo("Success", "TSV file exported successfully.")
 
-    def export_tsv(self):
-        if not self.has_data_loaded():
-            self.show_no_data_message("export")
-            return
-        path = filedialog.asksaveasfilename(defaultextension=".tsv", filetypes=[("TSV files", "*.tsv")])
-        if path:
-            self.table.model.df.to_csv(path, index=False, sep='\t')
-            messagebox.showinfo("Success", "TSV file exported successfully.")
-
     def _write_vcf_header(self, file_obj, header_source, available_fields=None):
         if isinstance(header_source, dict):
             file_obj.write(f"##fileformat={header_source['fileformat']}\n")
