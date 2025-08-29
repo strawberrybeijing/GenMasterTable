@@ -3,6 +3,13 @@
 
 **GenMasterTable** is a user-friendly, secure, and locally operated desktop application designed to handle large-scale genetic variant datasets. It features an intuitive graphical user interface (GUI) that simplifies filtering, merging(concatenation), summarizing, and visualizing annotated variants from DNA and RNA sequencing data. The application supports **VCF**,**CSV** and **TSV** file formats and is accessible to clinicians, geneticists, and researchers without requiring programming expertise.
 
+## Citation
+If you use GenMasterTable in your research, please cite:
+
+> **GenMasterTable: A user-friendly desktop solution for filtering, summarizing, and visualizing large-scale annotated genetic variants**
+
+(https://doi.org/10.1186/s12859-025-06238-6)
+
 ## Features
 
 - **Standalone Desktop Application**: No need for command-line execution or database setup.
@@ -52,13 +59,6 @@ If you encounter a security warning, navigate to **System Preferences > Security
 
 ## Application in Genomic Research
 GenMasterTable has been successfully applied to a whole-genome sequencing dataset of **935 subjects**, analyzing **2.1 million variants** across **181 annotations**. It enables efficient variant filtering for disease-associated genes, including **ANOS1, CHD7, DMXL2, FGFR1, PCSK1, POLR3A, SEMA3A, SOX10, TAC3**, and many others.
-
-## Citation
-If you use GenMasterTable in your research, please cite:
-
-> **GenMasterTable: A user-friendly desktop solution for filtering, summarizing, and visualizing large-scale annotated genetic variants**
-
-(https://doi.org/10.1186/s12859-025-06238-6)
 
 ## License
 GenMasterTable is released under the **MIT License**. See the [LICENSE](LICENSE) file for details.
