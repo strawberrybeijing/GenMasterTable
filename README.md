@@ -58,7 +58,7 @@ If you use GenMasterTable in your research, please cite:
 
 > **GenMasterTable: A user-friendly desktop solution for filtering, summarizing, and visualizing large-scale annotated genetic variants**
 
-([[Paper link will be added once published](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-025-06238-6)](https://doi.org/10.1186/s12859-025-06238-6))
+(https://doi.org/10.1186/s12859-025-06238-6)
 
 ## License
 GenMasterTable is released under the **MIT License**. See the [LICENSE](LICENSE) file for details.
